@@ -1,10 +1,13 @@
 <?php
+declare(strict_types=1);
+
 namespace Acme\FusionFlow\Controller;
 
 /*
  * This file is part of the Acme.FusionFlow package.
  */
 
+use Acme\FusionFlow\Domain\Repository\AtomRepository;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\Controller\ActionController;
 use Acme\FusionFlow\Domain\Model\Atom;
@@ -15,11 +18,11 @@ class AtomController extends ActionController
 
     /**
      * @Flow\Inject
-     * @var \Acme\FusionFlow\Domain\Repository\AtomRepository
+     * @var AtomRepository
      */
     protected $atomRepository;
 
-    protected function initializeView(ViewInterface $view)
+    protected function initializeView(ViewInterface $view): void
     {
         $view->assign('page-title', 'We intend to say something about the structure of the atom but lack a language in which we can make ourselves understood.');
     }
@@ -27,16 +30,16 @@ class AtomController extends ActionController
     /**
      * @return void
      */
-    public function indexAction()
+    public function indexAction(): void
     {
         $this->view->assign('atoms', $this->atomRepository->findAll());
     }
 
     /**
-     * @param \Acme\FusionFlow\Domain\Model\Atom $atom
+     * @param Atom $atom
      * @return void
      */
-    public function showAction(Atom $atom)
+    public function showAction(Atom $atom): void
     {
         $this->view->assign('atom', $atom);
     }
@@ -44,15 +47,15 @@ class AtomController extends ActionController
     /**
      * @return void
      */
-    public function newAction()
+    public function newAction(): void
     {
     }
 
     /**
-     * @param \Acme\FusionFlow\Domain\Model\Atom $newAtom
+     * @param Atom $newAtom
      * @return void
      */
-    public function createAction(Atom $newAtom)
+    public function createAction(Atom $newAtom): void
     {
         $this->atomRepository->add($newAtom);
         $this->addFlashMessage('Created a new atom.');
@@ -60,19 +63,19 @@ class AtomController extends ActionController
     }
 
     /**
-     * @param \Acme\FusionFlow\Domain\Model\Atom $atom
+     * @param Atom $atom
      * @return void
      */
-    public function editAction(Atom $atom)
+    public function editAction(Atom $atom): void
     {
         $this->view->assign('atom', $atom);
     }
 
     /**
-     * @param \Acme\FusionFlow\Domain\Model\Atom $atom
+     * @param Atom $atom
      * @return void
      */
-    public function updateAction(Atom $atom)
+    public function updateAction(Atom $atom): void
     {
         $this->atomRepository->update($atom);
         $this->addFlashMessage('Updated the atom.');
@@ -80,10 +83,10 @@ class AtomController extends ActionController
     }
 
     /**
-     * @param \Acme\FusionFlow\Domain\Model\Atom $atom
+     * @param Atom $atom
      * @return void
      */
-    public function deleteAction(Atom $atom)
+    public function deleteAction(Atom $atom): void
     {
         $this->atomRepository->remove($atom);
         $this->addFlashMessage('Deleted a atom.');

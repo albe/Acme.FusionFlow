@@ -3,8 +3,8 @@
     "type": "neos-package",
     "name": "acme/fusionflow",
     "require": {
-        "neos/flow": "*",
-        "neos/fusion-afx": "*"
+        "neos/flow": "^7.0",
+        "neos/fusion-afx": "^7.0"
     },
     "autoload": {
         "psr-4": {

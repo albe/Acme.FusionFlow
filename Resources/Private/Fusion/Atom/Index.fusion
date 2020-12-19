@@ -1,0 +1,21 @@
+Acme.FusionFlow.AtomController.index = Acme.FusionFlow:Page {
+
+    body {
+        renderer = afx`
+        <h1>
+            All the atoms that we know:
+        </h1>
+        <table>
+            <tbody>
+            <Neos.Fusion:Loop items={atoms} @children="itemRenderer">
+                <tr>
+                    <td>{item.name}</td>
+                    <td><a href={<Neos.Fusion:UriBuilder action="show" arguments={atom: item} />}>show</a></td>
+                </tr>
+            </Neos.Fusion:Loop>
+            </tbody>
+        </table>
+        `
+    }
+
+}

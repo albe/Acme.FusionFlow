@@ -1,0 +1,18 @@
+Neos:
+  Flow:
+    mvc:
+      routes:
+        'Acme.FusionFlow': true
+      view:
+        defaultImplementation: Neos\Fusion\View\FusionView
+
+
+Acme:
+  FusionFlow:
+    headerComment: |
+
+      <!--
+      This website is powered by Neos.Flow, a powerful PHP application framework licensed under the MIT license,
+      and Neos.Fusion, a powerful templating language.
+      More information and contribution opportunities at https://www.neos.io
+      -->

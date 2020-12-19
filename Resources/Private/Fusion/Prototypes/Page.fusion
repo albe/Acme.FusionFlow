@@ -1,0 +1,97 @@
+# Neos.Neos:Page is the default object used for rendering in most sites
+#
+prototype(Acme.FusionFlow:Page) < prototype(Neos.Fusion:Join) {
+/*
+This currently breaks, when this extends
+    httpResponseHead {
+        statusCode = 200
+        headers.Content-Type = 'text/html'
+    }
+*/
+    doctype = '<!DOCTYPE html>'
+    doctype.@position = 'start 100'
+
+    # Only the opening html tag for the page. This is done to avoid deep nesting of Fusion paths for integrators.
+    htmlTag = Neos.Fusion:Tag {
+        @position = 'start'
+        tagName = 'html'
+        omitClosingTag = true
+    }
+
+    headerComment = ${Configuration.setting('Acme.FusionFlow.headerComment')}
+    headerComment.@position = 'before headTag'
+
+    # The opening head tag for the page. This is done to avoid deep nesting of Fusion paths for integrators.
+    headTag = Neos.Fusion:Tag {
+        @position = 'after htmlTag'
+        tagName = 'head'
+        omitClosingTag = true
+    }
+
+    # The content of the head tag, integrators can add their own head content.
+    head = Neos.Fusion:Join {
+        @position = 'after headTag'
+
+        characterSetMetaTag = Neos.Fusion:Tag {
+            @position = 'start 10'
+            tagName = 'meta'
+            attributes {
+                charset = 'UTF-8'
+            }
+        }
+
+        titleTag = Neos.Fusion:Tag {
+            tagName = 'title'
+            content = ${page-title}
+        }
+
+        # Link tags for stylesheets in the head should go here
+        stylesheets = Neos.Fusion:Join
+
+        # Script includes in the head should go here
+        javascripts = Neos.Fusion:Join {
+            @position = 'after stylesheets'
+        }
+    }
+
+    closingHeadTag = '</head>'
+    closingHeadTag.@position = 'after head'
+
+    # The opening body tag for the page. This is done to avoid deep nesting of Fusion paths for integrators.
+    bodyTag = Neos.Fusion:Tag {
+        @position = 'after closingHeadTag'
+        tagName = 'body'
+        omitClosingTag = true
+    }
+
+    # Content of the body tag. To be defined by the integrator.
+    body = Neos.Fusion:Fragment {
+        @position = 'after bodyTag'
+
+        # Script includes before the closing body tag should go here
+        javascripts = Neos.Fusion:Join
+        # This processor appends the rendered javascripts Array to the rendered template
+        @process.appendJavaScripts = ${value + this.javascripts}
+    }
+
+    closingBodyTag = '</body>'
+    closingBodyTag.@position = 'end 100'
+
+    closingHtmlTag = '</html>'
+    closingHtmlTag.@position = 'end 200'
+
+
+    @cache {
+        mode = 'cached'
+//        entryIdentifier {
+//            documentNode = ${node}
+//        }
+//        entryTags {
+//            1 = ${Neos.Caching.nodeTag(node)}
+//        }
+    }
+
+    @process.debugDump = Neos.Fusion:DebugDump
+
+//    @exceptionHandler = 'Neos\\Neos\\Fusion\\ExceptionHandlers\\PageHandler'
+}

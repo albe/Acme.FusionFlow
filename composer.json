@@ -1,0 +1,19 @@
+{
+    "description": "Minimalistic example of using Fusion.AFX with Flow",
+    "type": "neos-package",
+    "name": "acme/fusionflow",
+    "require": {
+        "neos/flow": "*",
+        "neos/fusion-afx": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Acme\\FusionFlow\\": "Classes/"
+        }
+    },
+    "extra": {
+        "neos": {
+            "package-key": "Acme.FusionFlow"
+        }
+    }
+}

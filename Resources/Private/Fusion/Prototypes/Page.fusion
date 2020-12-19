@@ -80,15 +80,12 @@ This currently breaks, when this extends
     closingHtmlTag = '</html>'
     closingHtmlTag.@position = 'end 200'
 
-
     @cache {
         mode = 'cached'
-//        entryIdentifier {
-//            documentNode = ${node}
-//        }
-//        entryTags {
-//            1 = ${Neos.Caching.nodeTag(node)}
-//        }
+        entryIdentifier {
+        }
+        entryTags {
+        }
     }
 
     @process.debugDump = Neos.Fusion:DebugDump

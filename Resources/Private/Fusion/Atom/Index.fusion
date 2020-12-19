@@ -2,20 +2,48 @@ Acme.FusionFlow.AtomController.index = Acme.FusionFlow:Page {
 
     body {
         renderer = afx`
-        <h1>
-            All the atoms that we know:
-        </h1>
-        <table>
-            <tbody>
-            <Neos.Fusion:Loop items={atoms} @children="itemRenderer">
-                <tr>
-                    <td>{item.name}</td>
-                    <td><a href={<Neos.Fusion:UriBuilder action="show" arguments={atom: item} />}>show</a></td>
-                </tr>
-            </Neos.Fusion:Loop>
-            </tbody>
-        </table>
+            <h1>
+                All the atoms that we know:
+            </h1>
+            <table>
+                <tbody>
+                <Neos.Fusion:Loop items={atoms}>
+                    <tr>
+                        <td>{item.name}</td>
+                        <td>
+                            <a title={'Show ' + item.name}>
+                                <Neos.Fusion:UriBuilder
+                                    action="show"
+                                    arguments={{atom: item}}
+                                    @path="attributes.href"
+                                />
+                                show
+                            </a>
+                        </td>
+                    </tr>
+                </Neos.Fusion:Loop>
+                </tbody>
+            </table>
+
+            <Neos.Fusion.Form:Form form.target.action="create" attributes.name="newAtom">
+                <label for="name">The name of the atom</label>
+                <Neos.Fusion.Form:Input
+                    attributes.id="name"
+                    attributes.placeholder="The atoms name"
+                    field.name="newAtom[name]"
+                />
+                <button type="submit">Create</button>
+            </Neos.Fusion.Form:Form>
         `
     }
 
+    @cache {
+        mode = 'cached'
+        entryIdentifier {
+            static = 'list'
+        }
+        entryTags {
+            allAtoms = 'Atoms'
+        }
+    }
 }

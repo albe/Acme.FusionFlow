@@ -12,6 +12,8 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\Controller\ActionController;
 use Acme\FusionFlow\Domain\Model\Atom;
 use Neos\Flow\Mvc\View\ViewInterface;
+use Neos\Fusion\Core\Cache\ContentCache;
+use Neos\Fusion\View\FusionView;
 
 class AtomController extends ActionController
 {
@@ -22,8 +24,16 @@ class AtomController extends ActionController
      */
     protected $atomRepository;
 
+    /**
+     * @Flow\Inject
+     * @var ContentCache
+     */
+    protected $contentCache;
+
     protected function initializeView(ViewInterface $view): void
     {
+        /** @var FusionView $view */
+        $view->setOption('enableContentCache', true);
         $view->assign('page-title', 'We intend to say something about the structure of the atom but lack a language in which we can make ourselves understood.');
     }
 
@@ -49,6 +59,7 @@ class AtomController extends ActionController
      */
     public function newAction(): void
     {
+        $this->contentCache->flushByTag('Atoms');
     }
 
     /**
@@ -58,6 +69,7 @@ class AtomController extends ActionController
     public function createAction(Atom $newAtom): void
     {
         $this->atomRepository->add($newAtom);
+        $this->contentCache->flushByTag('Atoms');
         $this->addFlashMessage('Created a new atom.');
         $this->redirect('index');
     }
@@ -68,6 +80,8 @@ class AtomController extends ActionController
      */
     public function editAction(Atom $atom): void
     {
+        $this->contentCache->flushByTag('Atoms');
+        $this->contentCache->flushByTag('Atom_' . $atom->getName());
         $this->view->assign('atom', $atom);
     }
 
@@ -78,6 +92,8 @@ class AtomController extends ActionController
     public function updateAction(Atom $atom): void
     {
         $this->atomRepository->update($atom);
+        $this->contentCache->flushByTag('Atoms');
+        $this->contentCache->flushByTag('Atom_' . $atom->getName());
         $this->addFlashMessage('Updated the atom.');
         $this->redirect('index');
     }
@@ -89,6 +105,8 @@ class AtomController extends ActionController
     public function deleteAction(Atom $atom): void
     {
         $this->atomRepository->remove($atom);
+        $this->contentCache->flushByTag('Atoms');
+        $this->contentCache->flushByTag('Atom_' . $atom->getName());
         $this->addFlashMessage('Deleted a atom.');
         $this->redirect('index');
     }

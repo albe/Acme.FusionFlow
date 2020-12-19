@@ -1,0 +1,25 @@
+Acme.FusionFlow.AtomController.show = Acme.FusionFlow:Page {
+
+    body {
+        backAction = Neos.Fusion:UriBuilder {
+            action = 'index'
+        }
+
+        renderer = afx`
+            <h1>
+                The atom {atom.name}
+            </h1>
+            <a href={props.backAction} title="Go back">Go back</a>
+        `
+    }
+
+    @cache {
+        mode = 'cached'
+        entryIdentifier {
+            atom = ${atom.name}
+        }
+        entryTags {
+            atom = ${'Atom_' + atom.name}
+        }
+    }
+}

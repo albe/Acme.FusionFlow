@@ -9,6 +9,27 @@ Acme.FusionFlow.AtomController.show = Acme.FusionFlow:Page {
             <h1>
                 The atom {atom.name}
             </h1>
+            <table @if.condition={!data.message}>
+                <tbody>
+                <tr>
+                    <td>Symbol</td><td>{data.symbol}</td>
+                </tr>
+                <tr>
+                    <td>Name</td><td>{data.name}</td>
+                </tr>
+                <tr>
+                    <td>Standard state</td><td>{data.standardState}</td>
+                </tr>
+                <tr>
+                    <td>Mass</td><td>{data.atomicMass}</td>
+                </tr>
+                <tr>
+                    <td>Radius</td><td>{data.atomicRadius}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div @if.condition={data.message == 'does not exists'}>This atom does not seem like it exists. Did you make this up?</div>
+
             <a href={props.backAction} title="Go back">Go back</a>
         `
     }

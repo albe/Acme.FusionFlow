@@ -1,5 +1,5 @@
 - name: 'Manage atoms'
-  uriPattern: 'atoms/{@action}'
+  uriPattern: 'atoms(/{@action})'
   defaults:
     '@controller': 'Atom'
     '@package': 'Acme.FusionFlow'

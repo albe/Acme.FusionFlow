@@ -35,6 +35,8 @@ class AtomController extends ActionController
         /** @var FusionView $view */
         $view->setOption('enableContentCache', true);
         $view->assign('page-title', 'We intend to say something about the structure of the atom but lack a language in which we can make ourselves understood.');
+        $flashMessages = $this->controllerContext->getFlashMessageContainer()->getMessagesAndFlush();
+        $view->assign('flashMessages', $flashMessages);
     }
 
     /**

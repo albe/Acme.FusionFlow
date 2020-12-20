@@ -68,6 +68,25 @@ This currently breaks, when this extends
     body = Neos.Fusion:Fragment {
         @position = 'after bodyTag'
 
+        flashMessages = Neos.Fusion:Fragment {
+            @cache {
+                mode = 'uncached'
+                context {
+                    1 = 'flashMessages'
+                }
+            }
+            @if.condition = ${Array.length(flashMessages) > 0}
+            class = 'flashmessages'
+            flashMessages = ${flashMessages}
+            renderer = afx`
+                <ul class={props.class}>
+                    <Neos.Fusion:Loop items={props.flashMessages}>
+                        <li class={props.class + '-' + String.toLowerCase(item.severity)}><h3 @if.condition={item.title}>{item.title}</h3>{item}</li>
+                    </Neos.Fusion:Loop>
+                </ul>`
+        }
+        @process.prependFlashMessages = ${this.flashMessages + value}
+
         # Script includes before the closing body tag should go here
         javascripts = Neos.Fusion:Join
         # This processor appends the rendered javascripts Array to the rendered template

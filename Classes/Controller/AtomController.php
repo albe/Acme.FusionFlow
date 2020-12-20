@@ -9,8 +9,6 @@ namespace Acme\FusionFlow\Controller;
 
 use Acme\FusionFlow\Domain\Repository\AtomRepository;
 use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Http\Client\Browser;
-use Neos\Flow\Http\Client\CurlEngine;
 use Neos\Flow\Mvc\Controller\ActionController;
 use Acme\FusionFlow\Domain\Model\Atom;
 use Neos\Flow\Mvc\View\ViewInterface;
@@ -54,14 +52,6 @@ class AtomController extends ActionController
     public function showAction(Atom $atom): void
     {
         $this->view->assign('atom', $atom);
-        $browser = new Browser();
-        $browser->setRequestEngine(new CurlEngine());
-        // See https://github.com/neelpatel05/periodic-table-api
-        $uri = strlen($atom->getName()) <= 2 ? 'https://neelpatel05.pythonanywhere.com/element/symbol?symbol=' : 'https://neelpatel05.pythonanywhere.com/element/atomicname?atomicname=';
-        $response = $browser->request($uri . $atom->getName());
-        if ($response->getStatusCode() <= 300) {
-            $this->view->assign('data', json_decode($response->getBody()->getContents(), true));
-        }
     }
 
     /**
@@ -69,7 +59,6 @@ class AtomController extends ActionController
      */
     public function newAction(): void
     {
-        $this->contentCache->flushByTag('Atoms');
     }
 
     /**
@@ -90,8 +79,6 @@ class AtomController extends ActionController
      */
     public function editAction(Atom $atom): void
     {
-        $this->contentCache->flushByTag('Atoms');
-        $this->contentCache->flushByTag('Atom_' . $atom->getName());
         $this->view->assign('atom', $atom);
     }
 

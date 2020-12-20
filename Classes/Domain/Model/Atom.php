@@ -16,6 +16,7 @@ class Atom
 
     /**
      * @var string
+     * @Flow\Validate(type="NotEmpty")
      */
     protected $name;
 

@@ -1,0 +1,5 @@
+prototype(Acme.FusionFlow:AtomApi) {
+    @class = 'Acme\\FusionFlow\\FusionObjects\\AtomApiImplementation'
+    dataProp = 'data'
+    renderer = ${props.content}
+}
